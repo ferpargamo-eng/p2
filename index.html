@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Juego Especial 💘</title>
+  <style>
+    /* 🌟 Fondo romántico tipo lego */
+    body {
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      text-align: center;
+      padding: 40px;
+      color: #fff;
+    }
+
+    /* 🌟 Tarjeta estilo bloque lego */
+    .card {
+      background: #ff6f91;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 4px 4px 0 #ffb3c1;
+      border: 4px solid #fff;
+      position: relative;
+    }
+
+    .card::before {
+      content: "❤️";
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* 🌟 Botones estilo lego */
+    button {
+      background: #ffcb05;
+      color: #222;
+      border-radius: 5px;
+      padding: 15px 25px;
+      font-size: 16px;
+      margin: 10px;
+      border: 3px solid #f58220;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      background: #ffb347;
+    }
+
+    #yesButton, #noButton {
+      position: relative;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card" id="game">
+  <h1>Hola corazón </h1>
+  <p>Vamos a jugar algo…</p>
+
+  <!-- 🎵 Botón para reproducir música -->
+  <button id="playMusicBtn">🎵 Reproducir música</button>
+
+  <button onclick="nextStep(1)">START💌</button>
+</div>
+
+<!-- 🎵 Sonido de acierto -->
+<audio id="correctSound" preload="auto">
+  <source src="correcto.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- 🎶 Música de fondo -->
+<audio id="bgMusic" loop>
+  <source src="musica.mp3" type="audio/mpeg" />
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+<script>
+  // 🌟 Confeti épico
+  function lanzarConfeti() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#ff4d6d', '#ffb3c1', '#fff', '#ffd700', '#ff69b4'],
+    });
+
+    confetti({
+      particleCount: 80,
+      spread: 120,
+      origin: { y: 0.6, x: 0.3 },
+      colors: ['#ff4d6d', '#ffb3c1', '#fff', '#ffd700', '#ff69b4'],
+    });
+
+    confetti({
+      particleCount: 80,
+      spread: 120,
+      origin: { y: 0.6, x: 0.7 },
+      colors: ['#ff4d6d', '#ffb3c1', '#fff', '#ffd700', '#ff69b4'],
+    });
+  }
+
+  // 🌟 Respuesta correcta
+  function correcta(siguiente) {
+    document.getElementById('correctSound').play();
+    lanzarConfeti();
+    alert("💖 Correctooo 😍 sabía que contestarias bien");
+    nextStep(siguiente);
+  }
+
+  // 🌟 Respuesta incorrecta
+  function incorrecta() {
+    alert("❌ Nooo, intenta otra vez");
+  }
+
+  // 🌟 Lógica del juego
+  function nextStep(step) {
+    const game = document.getElementById("game");
+
+    if (step === 1) {
+      game.innerHTML = `
+        <h1>Pregunta 1 💭</h1>
+        <p>¿Dónde fue nuestra primera cita?</p>
+        <button onclick="correcta(2)">En Waffles and Coffee</button>
+        <button onclick="incorrecta()">En Al Súper 🛒</button>
+      `;
+    }
+
+    if (step === 2) {
+      game.innerHTML = `
+        <h1>Pregunta 2 💗</h1>
+        <p>¿Me seguirías amando si un día me convierto en una cebolla?</p>
+        <button onclick="incorrecta()">No, que asco mejor nada</button>
+        <button onclick="correcta(3)">Ooooobvio que si 💕</button>
+      `;
+    }
+
+    if (step === 3) {
+      game.innerHTML = `
+        <h1>Última pregunta 💘</h1>
+        <p>Esta sí es MUY importante…</p>
+        <h2>¿Quieres ser mi San Valentín? 🌹</h2>
+        <button id="yesButton">SÍ 💞</button>
+        <button id="noButton">NO 😳</button>
+      `;
+
+      const yesBtn = document.getElementById('yesButton');
+      yesBtn.addEventListener('click', function() {
+        document.getElementById('correctSound').play();
+        lanzarConfeti();
+        alert("💖 SABÍA QUE DIRÍAS QUE SÍ, TE AMOOO 💖");
+      });
+
+      const noBtn = document.getElementById('noButton');
+      noBtn.addEventListener('mousemove', function() {
+        const x = Math.random() * 300;
+        const y = Math.random() * 100;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      });
+
+      noBtn.addEventListener('click', function() {
+        alert("no puedes decir que no!");
+      });
+    }
+  }
+
+  // 🌟 Botón para reproducir música
+  const playMusicBtn = document.getElementById('playMusicBtn');
+  const bgMusic = document.getElementById('bgMusic');
+
+  playMusicBtn.addEventListener('click', () => {
+    bgMusic.play();                  
+    playMusicBtn.style.display = 'none'; 
+  });
+</script>
+
+</body>
+</html>
